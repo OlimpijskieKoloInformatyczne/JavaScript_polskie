@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <!--
-Gra Dino v. 1.1 by OKI - Olimpijskie Kolo Informatyczne
+Gra Dino v. 1.2 by OKI - Olimpijskie Kolo Informatyczne
 Kod / omowienie / linki: https://oki.org.pl/dino
 Wersje:
 1.0 - Strona www z tekstem
 1.1 - canvas (plotno)
+1.2 - ziemia
 -->
 <html>
 <head>
@@ -13,7 +14,7 @@ Wersje:
 <body>
 
 <div>
-<strong>Gra Dino v1.1 by CodeMonster</strong>   
+<strong>Gra Dino v1.2 by CodeMonster</strong>   
 <br />Dino idzie przez pustynie.
 </div>
 
@@ -29,6 +30,9 @@ rysowanie = plansza.getContext("2d");
 //                        Red Green Blue
 rysowanie.fillStyle = "rgb(249,218,255)";    
 rysowanie.fillRect(0,0,600, 200);
+
+rysowanie.fillStyle = "rgb(69,0,33)";    
+rysowanie.fillRect(0,170,600, 5);
 
 </script>
 
