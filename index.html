@@ -11,8 +11,25 @@ Wersje:
  
 <body>
 
-<strong>Gra Dino v1.0 
-    by CodeMonster</strong>   <br />Dino idzie przez pustynie.
+<div>
+<strong>Gra Dino v1.0 by CodeMonster</strong>   
+<br />Dino idzie przez pustynie.
+</div>
+
+<canvas id="plansza_canvas" width="600px" height="200px">
+</canvas>
+
+<script>
+let plansza, rysowanie;
+ 
+plansza = document.getElementById("plansza_canvas");
+rysowanie = plansza.getContext("2d");  
+
+//                        Red Green Blue
+rysowanie.fillStyle = "rgb(249,218,255)";    
+rysowanie.fillRect(0,0,600, 200);
+
+</script>
 
 </body> 
 </html>
