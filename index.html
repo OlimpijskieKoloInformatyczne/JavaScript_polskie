@@ -2,13 +2,7 @@
 <!--
 Gra Dino v. 1.5 by OKI - Olimpijskie Kolo Informatyczne
 Kod / omowienie / linki: https://oki.org.pl/dino
-Wersje:
-1.0 - Strona www z tekstem
-1.1 - canvas (plotno)
-1.2 - ziemia
-1.3 - funkcje plansza/ziemia
-1.4 - kaktus
-1.5 - Animacja!
+Wersje: 1.0 - Strona www z tekstem / 1.1 - canvas (plotno) / 1.2 - ziemia / 1.3 - funkcje plansza/ziemia / 1.4 - kaktus / 1.5 - Animacja!
 -->
 <html>
 <head>
@@ -28,14 +22,18 @@ Wersje:
 let plansza, rysowanie;
 let kaktus_x;
 
+//poczatkowe ustawienie kaktusa po osi X -> z prawej strony planszy
 kaktus_x = 550;
 
 plansza = document.getElementById("plansza_canvas");
 rysowanie = plansza.getContext("2d");  
 
 function RysujPlansze() {
-   rysowanie.fillStyle = "rgb(249,218,255)";    
-   rysowanie.fillRect(0,0, 600,200);
+//kolor prostokata
+   rysowanie.fillStyle = "rgb(249,218,255)"; 
+//rysowanie prostokata -> lewy górny róg w (0,0)
+//szerokosc po X 600, wysokosc po Y 200
+   rysowanie.fillRect(0,0, 600,200); 
 }
 function RysujZiemie() {
    rysowanie.fillStyle = "rgb(69,0,33)";    
@@ -46,17 +44,21 @@ function RysujKaktus(x) {
    rysowanie.fillRect(x,140,10,30);
 }
 
+//funkcja która rysuje plansze, ziemie, kaktusa
 function Gra() {
    RysujPlansze();
    RysujZiemie();
    RysujKaktus(kaktus_x);
+//kolejny kaktus bedzie przesuniety w lewo
    kaktus_x = kaktus_x - 1;
+//jesli kaktus wyjdzie za plansze z lewej strony, 
+//z powrotem ustawiamy go z prawej
    if ( kaktus_x < 0 )
       kaktus_x = 550;
 }
 
-setInterval(Gra, 10); //100 razy na sekund - co 10 ms
-
+//co 10ms, czyli 100 razy na sekunde wywolujemy funkcje Gr()
+setInterval(Gra, 10); 
 </script>
 
 </body> 
