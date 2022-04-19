@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <!--
-Gra Dino v. 2.3 by OKI - Olimpijskie Kolo Informatyczne
+Gra Dino v. 2.4 by OKI - Olimpijskie Kolo Informatyczne
 Kod / omowienie / linki: https://oki.org.pl/dino-v1
 Wersje: 1.0 - Strona www z tekstem / 1.1 - canvas (plotno) / 1.2 - ziemia / 1.3 - funkcje plansza/ziemia / 1.4 - kaktus / 1.5 - Animacja!
 2.0 - rozmiar planszy jako width/height
 2.1 - dodanie klasy klasa_kaktus
 2.2 - dodanie klasy klasa_dino
 2.3 - dino idzie do gory
+2.5 - dino skacze
 -->
 <html>
 <head>
@@ -15,7 +16,7 @@ Wersje: 1.0 - Strona www z tekstem / 1.1 - canvas (plotno) / 1.2 - ziemia / 1.3 
 <body>
 
 <div>
-<strong>Gra Dino v2.3 by CodeMonster</strong>   
+<strong>Gra Dino v2.4 by CodeMonster</strong>   
 <br />Dino idzie przez pustynie.
 </div>
 
@@ -58,6 +59,7 @@ Wersje: 1.0 - Strona www z tekstem / 1.1 - canvas (plotno) / 1.2 - ziemia / 1.3 
       this.dino_szerokosc_x = 30; 
       this.dino_wysokosc_y = 50; 
       this.czy_dino_skacze = false; 
+      this.grawitacja = 0.1;
    }
    RysujDino() {
       rysowanie.fillStyle = "rgb(0,0,255)";    
@@ -65,12 +67,16 @@ Wersje: 1.0 - Strona www z tekstem / 1.1 - canvas (plotno) / 1.2 - ziemia / 1.3 
       this.dino_szerokosc_x,this.dino_wysokosc_y);
       if (this.czy_dino_skacze == true) {
          this.dino_y = this.dino_y - this.predkosc;
+         this.predkosc = this.predkosc - this.grawitacja;         
       }   
-   }	  
+      if (this.dino_y+this.dino_wysokosc_y  >= 170) {
+         this.UstawDino();
+      }
+}	  
    DinoSkacz() {
       if ( this.czy_dino_skacze == false ) {
          this.czy_dino_skacze = true;
-         this.predkosc = 0.1;
+         this.predkosc = 4;
       }
    }   
 }  
