@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <!--
-Gra Dino v. 2.0 by OKI - Olimpijskie Kolo Informatyczne
+Gra Dino v. 2.1 by OKI - Olimpijskie Kolo Informatyczne
 Kod / omowienie / linki: https://oki.org.pl/dino-v1
 Wersje: 1.0 - Strona www z tekstem / 1.1 - canvas (plotno) / 1.2 - ziemia / 1.3 - funkcje plansza/ziemia / 1.4 - kaktus / 1.5 - Animacja!
 2.0 - rozmiar planszy jako width/height
+2.1 - dodanie klasy klasa_kaktus
 -->
 <html>
 <head>
@@ -12,7 +13,7 @@ Wersje: 1.0 - Strona www z tekstem / 1.1 - canvas (plotno) / 1.2 - ziemia / 1.3 
 <body>
 
 <div>
-<strong>Gra Dino v2.0 by CodeMonster</strong>   
+<strong>Gra Dino v2.1 by CodeMonster</strong>   
 <br />Dino idzie przez pustynie.
 </div>
 
@@ -20,39 +21,51 @@ Wersje: 1.0 - Strona www z tekstem / 1.1 - canvas (plotno) / 1.2 - ziemia / 1.3 
 </canvas>
 
 <script>
-let plansza, rysowanie;
-
-plansza = document.getElementById("plansza_canvas");
-rysowanie = plansza.getContext("2d");  
-
-let kaktus_x;
-kaktus_x = plansza.width + 40;
-
-
-function RysujPlansze() {
-   rysowanie.fillStyle = "rgb(249,218,255)"; 
-   rysowanie.fillRect(0,0, plansza.width,plansza.height); 
-}
-function RysujZiemie() {
-   rysowanie.fillStyle = "rgb(69,0,33)";    
-   rysowanie.fillRect(0,170, plansza.width,5);
-}
-function RysujKaktus(x) {
-   rysowanie.fillStyle = "rgb(36,170,0)";    
-   rysowanie.fillRect(x,140,10,30);
-}
-
-function Gra() {
-   RysujPlansze();
-   RysujZiemie();
-   RysujKaktus(kaktus_x);
-   kaktus_x = kaktus_x - 1;
-   if ( kaktus_x < 0 )
-      kaktus_x = plansza.width + 40;
-}
-
-setInterval(Gra, 10); 
-</script>
+    let plansza, rysowanie;
+    plansza = document.getElementById("plansza_canvas");
+    rysowanie = plansza.getContext("2d");  
+    
+    class klasa_kaktus {
+       constructor() {
+          this.UstawKaktus();
+       }
+       UstawKaktus() {
+          this.kaktus_x = plansza.width + 40; 
+          this.kaktus_y = 150; 
+          this.kaktus_szerokosc_x = 10; 
+          this.kaktus_wysokosc_y = 20; 
+          this.kaktus_predkosc_x = .5; 
+       }
+       RysujKaktus() {
+          rysowanie.fillStyle = "rgb(36,170,0)";    
+          rysowanie.fillRect(this.kaktus_x,this.kaktus_y,
+          this.kaktus_szerokosc_x,this.kaktus_wysokosc_y);
+          this.kaktus_x = this.kaktus_x - this.kaktus_predkosc_x;
+          if ( this.kaktus_x < 0 )
+             this.UstawKaktus(); 
+       }
+    }  
+    
+    function RysujPlansze() {
+       rysowanie.fillStyle = "rgb(249,218,255)"; 
+       rysowanie.fillRect(0,0, plansza.width,plansza.height); //zmiana
+    }
+    function RysujZiemie() {
+       rysowanie.fillStyle = "rgb(69,0,33)";    
+       rysowanie.fillRect(0,170, plansza.width,5); //zmiana
+    }
+    
+    function Gra() {
+       RysujPlansze();
+       RysujZiemie();
+       kaktus1.RysujKaktus();
+    }
+    
+    let kaktus1;
+    kaktus1 = new klasa_kaktus();
+    setInterval(Gra, 10); 
+    
+    </script>
 
 </body> 
 </html>
