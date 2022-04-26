@@ -8,7 +8,8 @@ Wersje: 2.0 - Wykorzystanie zmiennych planszy / 2.1 - Klasa klasa_kaktus / 2.2 -
 3.0 - Wynik gracza / liczba zyc
 3.1 - Guzik Start
 3.2 - Kolizja
-3.4 - Dwa kaktusy
+3.3 - Dwa kaktusy
+3.4 - Kaktus obrazek
 -->
 
 <html>
@@ -18,7 +19,7 @@ Wersje: 2.0 - Wykorzystanie zmiennych planszy / 2.1 - Klasa klasa_kaktus / 2.2 -
 <body>
 
 <div>
-<strong>Gra Dino v3.3 by CodeMonster</strong>   
+<strong>Gra Dino v3.4 by CodeMonster</strong>   
 <br />Dino idzie przez pustynie.
 <div id="baner_start">
 <h1>Nacisnij START i graj!</h1>
@@ -50,15 +51,17 @@ class klasa_kaktus {
    }
    UstawKaktus() {
       this.kaktus_x = plansza.width + 40; 
-      this.kaktus_y = 150; 
-      this.kaktus_szerokosc_x = 10; 
-      this.kaktus_wysokosc_y = 20; 
+      this.kaktus_y = 140; 
+      this.kaktus_szerokosc_x = 15; 
+      this.kaktus_wysokosc_y = 30; 
       this.kaktus_predkosc_x = 1;
       this.kolor = "rgb(36,170,0)";
 }
    RysujKaktus() {
       rysowanie.fillStyle = this.kolor;    
-      rysowanie.fillRect(this.kaktus_x,this.kaktus_y, this.kaktus_szerokosc_x,this.kaktus_wysokosc_y);
+//      rysowanie.fillRect(this.kaktus_x,this.kaktus_y, this.kaktus_szerokosc_x,this.kaktus_wysokosc_y);
+      rysowanie.drawImage(this.img, this.kaktus_x,this.kaktus_y, 
+      this.kaktus_szerokosc_x,this.kaktus_wysokosc_y);
       this.kaktus_x = this.kaktus_x - this.kaktus_predkosc_x;
    }
    CzyKolizja() { 
@@ -71,6 +74,10 @@ class klasa_kaktus {
    if ( dino.ZwrocGorny_Y() > this.ZwrocDolny_Y() )
        return false; 
     return true; 
+   }
+   UstawGrafikeKaktusa(nazwa_pliku_z_grafika) {
+        this.img = new Image();
+        this.img.src = nazwa_pliku_z_grafika;
    }
    UstawKolor(nowy_kolor) {
       this.kolor = nowy_kolor;
@@ -124,7 +131,7 @@ class klasa_dino {
    DinoSkacz() {
       if ( this.czy_dino_skacze == false ) {
          this.czy_dino_skacze = true;
-         this.predkosc = 4;
+         this.predkosc = 6;
       }
    }   
    ZwrocLewy_X()  { 
@@ -167,7 +174,6 @@ function AktualizujWynik() {
       kaktus1.UstawPrawy_X ( dino.ZwrocLewy_X()-1 );
    if ( kaktus2.CzyKolizja()==true )   
       kaktus2.UstawPrawy_X ( dino.ZwrocLewy_X()-1 );
-
 }
     
 function Gra() {
@@ -205,8 +211,10 @@ function StartGry() {
    liczba_zyc = 3; 
    dino.UstawDino();
    kaktus1.UstawKaktus();
+   kaktus1.UstawGrafikeKaktusa("kaktus_1.png");
    kaktus2.UstawKaktus();
    kaktus2.UstawLosowyPrawy_X( kaktus1.ZwrocLewy_X() );
+   kaktus2.UstawGrafikeKaktusa("kaktus_2.png");
    kaktus2.UstawKolor ( "rgb(16,90,0)" );
    clearInterval(uchwyt_animacji);
    uchwyt_animacji = setInterval(Gra, 10);
