@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <!--
-Gra Dino v. 3.1 by OKI - Olimpijskie Kolo Informatyczne
+Gra Dino v. 3.3 by OKI - Olimpijskie Kolo Informatyczne
 Kod / omowienie / linki: https://oki.org.pl/dino-v1
 Kod / omowienie / linki: https://oki.org.pl/dino-v2
 Wersje: 1.0 - Strona www z tekstem / 1.1 - canvas (plotno) / 1.2 - ziemia / 1.3 - funkcje plansza/ziemia / 1.4 - kaktus / 1.5 - Animacja!
 Wersje: 2.0 - Wykorzystanie zmiennych planszy / 2.1 - Klasa klasa_kaktus / 2.2 - Klasa klasa_dino / 2.3 - Dino idzie do gory / 2.4 - Skok
 3.0 - Aktualizacja wyniku
-3.1 - PRzycisk Start
+3.1 - Przycisk Start
+3.2 - Kolizja
 -->
 
 <html>
@@ -16,7 +17,7 @@ Wersje: 2.0 - Wykorzystanie zmiennych planszy / 2.1 - Klasa klasa_kaktus / 2.2 -
 <body>
 
 <div>
-<strong>Gra Dino v3.1 by CodeMonster</strong>   
+<strong>Gra Dino v3.3 by CodeMonster</strong>   
 <br />Dino idzie przez pustynie.
 </div>
 <div id="baner_start">
@@ -63,6 +64,34 @@ class klasa_kaktus {
       if ( this.kaktus_x < 0 )
          this.UstawKaktus(); 
    }
+   CzyKolizja() { 
+      if ( dino.ZwrocPrawy_X() < this.ZwrocLewy_X() )
+         return false; //1
+      if ( dino.ZwrocLewy_X() > this.ZwrocPrawy_X() )
+         return false; //2
+      if ( dino.ZwrocDolny_Y() < this.ZwrocGorny_Y() )
+         return false; //3
+      if ( dino.ZwrocGorny_Y() > this.ZwrocDolny_Y() )
+        return false; //4
+    return true; 
+   }
+
+   ZwrocLewy_X()  { 
+      return this.kaktus_x; 
+   }
+   ZwrocPrawy_X() { 
+      return this.kaktus_x + this.kaktus_szerokosc_x;  
+   }
+   ZwrocGorny_Y() { 
+      return this.kaktus_y  
+   }
+   ZwrocDolny_Y() { 
+      return this.kaktus_y + this.kaktus_wysokosc_y;  
+   }
+   UstawPrawy_X(nowy_x) { 
+      this.kaktus_x = nowy_x-this.kaktus_szerokosc_x; 
+   }
+
 }  
 
 class klasa_dino {
@@ -94,6 +123,18 @@ class klasa_dino {
          this.predkosc = 4;
       }
    }   
+   ZwrocLewy_X()  { 
+      return this.dino_x; 
+   }
+   ZwrocPrawy_X() { 
+      return this.dino_x + this.dino_szerokosc_x;  
+   }
+   ZwrocGorny_Y() { 
+      return this.dino_y  
+   }
+   ZwrocDolny_Y() { 
+      return this.dino_y + this.dino_wysokosc_y;  
+   }
 }  
 
 function RysujPlansze() {
@@ -111,8 +152,21 @@ function AktualizujWynik() {
       ++wynik_gracza;
    document.getElementById("napis_wynik").innerHTML = 
    "Wynik: <strong>" + wynik_gracza + "</strong>";
-   document.getElementById("napis_liczba_zyc").innerHTML = 
-   "Liczba zyc: <strong>" + liczba_zyc + "</strong>";
+
+   if ( (kaktus1.CzyKolizja()==true) ) {
+      --liczba_zyc;
+      document.getElementById("napis_liczba_zyc").innerHTML 
+      = "Liczba zyc: <strong>" + liczba_zyc + "</strong>";
+      alert("Auuuuuuuuuuuuuuuuu!!!");
+      if (liczba_zyc <= 0) {
+         document.getElementById("baner_start").innerHTML = 
+         "<h1>Oj... Dino nie przeszedl pustyni... Sprobuj jeszcze raz!<h/1>";
+         clearInterval(uchwyt_animacji);
+      }
+   }
+   if ( kaktus1.CzyKolizja()==true )   
+      kaktus1.UstawPrawy_X ( dino.ZwrocLewy_X()-1 );
+
 }
 
 function Gra() {
