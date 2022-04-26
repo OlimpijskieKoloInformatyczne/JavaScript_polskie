@@ -2,13 +2,11 @@
 <!--
 Gra Dino v. 2.4 by OKI - Olimpijskie Kolo Informatyczne
 Kod / omowienie / linki: https://oki.org.pl/dino-v1
+Kod / omowienie / linki: https://oki.org.pl/dino-v2
 Wersje: 1.0 - Strona www z tekstem / 1.1 - canvas (plotno) / 1.2 - ziemia / 1.3 - funkcje plansza/ziemia / 1.4 - kaktus / 1.5 - Animacja!
-2.0 - rozmiar planszy jako width/height
-2.1 - dodanie klasy klasa_kaktus
-2.2 - dodanie klasy klasa_dino
-2.3 - dino idzie do gory
-2.5 - dino skacze
+Wersje: 2.0 - Wykorzystanie zmiennych planszy / 2.1 - Klasa klasa_kaktus / 2.2 - Klasa klasa_dino / 2.3 - Dino idzie do gory / 2.4 - Skok
 -->
+
 <html>
 <head>
 </head>
@@ -24,32 +22,31 @@ Wersje: 1.0 - Strona www z tekstem / 1.1 - canvas (plotno) / 1.2 - ziemia / 1.3 
 </canvas>
 
 <script>
-    let plansza, rysowanie;
-    plansza = document.getElementById("plansza_canvas");
-    rysowanie = plansza.getContext("2d");  
+let plansza, rysowanie;
+plansza = document.getElementById("plansza_canvas");
+rysowanie = plansza.getContext("2d");  
     
-    class klasa_kaktus {
-       constructor() {
-          this.UstawKaktus();
-       }
-       UstawKaktus() {
-          this.kaktus_x = plansza.width + 40; 
-          this.kaktus_y = 150; 
-          this.kaktus_szerokosc_x = 10; 
-          this.kaktus_wysokosc_y = 20; 
-          this.kaktus_predkosc_x = 1; 
-       }
-       RysujKaktus() {
-          rysowanie.fillStyle = "rgb(36,170,0)";    
-          rysowanie.fillRect(this.kaktus_x,this.kaktus_y,
-          this.kaktus_szerokosc_x,this.kaktus_wysokosc_y);
-          this.kaktus_x = this.kaktus_x - this.kaktus_predkosc_x;
-          if ( this.kaktus_x < 0 )
-             this.UstawKaktus(); 
-       }
-    }  
+class klasa_kaktus {
+   constructor() {
+      this.UstawKaktus();
+   }
+   UstawKaktus() {
+      this.kaktus_x = plansza.width + 40; 
+      this.kaktus_y = 150; 
+      this.kaktus_szerokosc_x = 10; 
+      this.kaktus_wysokosc_y = 20; 
+      this.kaktus_predkosc_x = 1;
+   }
+   RysujKaktus() {
+      rysowanie.fillStyle = "rgb(36,170,0)";    
+      rysowanie.fillRect(this.kaktus_x,this.kaktus_y, this.kaktus_szerokosc_x,this.kaktus_wysokosc_y);
+      this.kaktus_x = this.kaktus_x - this.kaktus_predkosc_x;
+      if ( this.kaktus_x < 0 )
+         this.UstawKaktus(); 
+   }
+}  
 
- class klasa_dino {
+class klasa_dino {
    constructor() {
       this.UstawDino();
    }
@@ -59,20 +56,18 @@ Wersje: 1.0 - Strona www z tekstem / 1.1 - canvas (plotno) / 1.2 - ziemia / 1.3 
       this.dino_szerokosc_x = 30; 
       this.dino_wysokosc_y = 50; 
       this.czy_dino_skacze = false; 
-      this.grawitacja = 0.1;
+      this.grawitacja = 0.1; 
    }
    RysujDino() {
       rysowanie.fillStyle = "rgb(0,0,255)";    
-      rysowanie.fillRect(this.dino_x,this.dino_y, 
-      this.dino_szerokosc_x,this.dino_wysokosc_y);
+      rysowanie.fillRect(this.dino_x,this.dino_y, this.dino_szerokosc_x,this.dino_wysokosc_y);
       if (this.czy_dino_skacze == true) {
          this.dino_y = this.dino_y - this.predkosc;
          this.predkosc = this.predkosc - this.grawitacja;         
       }   
-      if (this.dino_y+this.dino_wysokosc_y  >= 170) {
+      if (this.dino_y+this.dino_wysokosc_y  >= 170)
          this.UstawDino();
-      }
-}	  
+   }	  
    DinoSkacz() {
       if ( this.czy_dino_skacze == false ) {
          this.czy_dino_skacze = true;
@@ -81,23 +76,21 @@ Wersje: 1.0 - Strona www z tekstem / 1.1 - canvas (plotno) / 1.2 - ziemia / 1.3 
    }   
 }  
 
+function RysujPlansze() {
+   rysowanie.fillStyle = "rgb(249,218,255)"; 
+   rysowanie.fillRect(0,0, plansza.width,plansza.height); 
+}
+function RysujZiemie() {
+   rysowanie.fillStyle = "rgb(69,0,33)";    
+   rysowanie.fillRect(0,170, plansza.width,5); 
+}
     
-
-    function RysujPlansze() {
-       rysowanie.fillStyle = "rgb(249,218,255)"; 
-       rysowanie.fillRect(0,0, plansza.width,plansza.height); //zmiana
-    }
-    function RysujZiemie() {
-       rysowanie.fillStyle = "rgb(69,0,33)";    
-       rysowanie.fillRect(0,170, plansza.width,5); //zmiana
-    }
-    
-    function Gra() {
-       RysujPlansze();
-       RysujZiemie();
-       kaktus1.RysujKaktus();
-       dino.RysujDino();
-    }
+function Gra() {
+   RysujPlansze();
+   RysujZiemie();
+   kaktus1.RysujKaktus();
+   dino.RysujDino();
+}
 
 function UstawWcisnietyKlawisz(zdarzenie) {
    if ( (zdarzenie.key=='g') || (zdarzenie.key=='ArrowUp') ) {
@@ -106,15 +99,12 @@ function UstawWcisnietyKlawisz(zdarzenie) {
  }
 document.addEventListener("keydown", UstawWcisnietyKlawisz, false);
 
+let kaktus1, dino;
+kaktus1 = new klasa_kaktus();
+dino = new klasa_dino();
+
+setInterval(Gra, 10); 
     
-
-    let kaktus1, dino;
-    kaktus1 = new klasa_kaktus();
-    dino = new klasa_dino();
-
-    setInterval(Gra, 10); 
-    
-    </script>
-
+</script>
 </body> 
 </html>
